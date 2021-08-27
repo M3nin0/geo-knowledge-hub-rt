@@ -14,6 +14,10 @@
 // ------------
 // Footer style
 // ------------
+.invenio-rdm-footer {
+    margin: auto;
+}
+
 .rdm-footer {
     text-align: left;
     align-self: inherit;
