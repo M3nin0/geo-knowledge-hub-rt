@@ -55,12 +55,12 @@ services:
         extends:
             file: docker-services.yml
             service: pgadmin
-#    s3:
-#        extends:
-#          file: docker-services.yml
-#          service: s3
-#        volumes:
-#            - s3_data:/data
+    s3:
+        extends:
+          file: docker-services.yml
+          service: s3
+        volumes:
+            - s3_data:/data
     isso:
         extends:
             file: docker-services.yml
@@ -93,6 +93,8 @@ services:
             - "5000"
         volumes:
             - static_data:/opt/invenio/var/instance/static
+            - uploaded_data:/opt/invenio/var/instance/data
+            - archived_data:/opt/invenio/var/instance/archive
 
     # API Rest Application
     web-api:
@@ -103,6 +105,9 @@ services:
         image: geo-knowledge-hub
         ports:
             - "5000"
+        volumes:
+            - uploaded_data:/opt/invenio/var/instance/data
+            - archived_data:/opt/invenio/var/instance/archive
 
     # Worker
     worker:
@@ -123,4 +128,6 @@ services:
                 condition: service_started
 volumes:
     static_data:
-#    s3_data:
+    uploaded_data:
+    archived_data:
+    s3_data:
