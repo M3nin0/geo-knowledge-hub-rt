@@ -131,3 +131,7 @@ venv.bak/
 
 # Node.JS
 node_modules/
+
+# GEO Knowledge Hub Project
+data/
+isso-db/

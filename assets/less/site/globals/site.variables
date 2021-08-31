@@ -12,7 +12,7 @@
 // ------------
 @navbar_background_image: unset;
 @navbar_background_color: @brandColor;
-@frontpage_search_background: url("../../../../static/images/frontpage-search-background.jpg");
+@frontpage_search_background: url("../../../../static/images/itaipu.jpg");
 
 
 // ------------
