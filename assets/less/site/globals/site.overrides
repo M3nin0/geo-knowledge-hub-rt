@@ -10,7 +10,6 @@
     background-size: cover;
 }
 
-
 // ------------
 // Footer style
 // ------------
@@ -67,4 +66,8 @@ nav#invenio-nav {
             color: @gkhubFontColor;
         }
     }
+}
+
+.gkhub-goal h3 {
+    margin: 1rem 0;
 }
