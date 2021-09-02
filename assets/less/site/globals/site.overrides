@@ -28,6 +28,16 @@
 }
 
 // ------------
+// Body style
+// ------------
+.section-gray-bg {
+    background-color: #f1f2f6;
+    padding: 30px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+// ------------
 // Footer style
 // ------------
 .invenio-rdm-footer {
@@ -41,6 +51,10 @@
     padding: 1em 0em 1em 0em;
 }
 
+.footer-global {
+    .footer-global();
+    padding-top: 0;
+}
 
 // ------------
 // Theme style
@@ -53,6 +67,16 @@ nav#invenio-nav {
     color: @gkhubFontColor;
     margin-bottom: 45px;
     font-weight: 500;
+}
+
+.section-subtitle-content {
+    .section-title();
+    margin-bottom: 30px;
+    font-weight: 440;
+}
+
+.gkhub-frontpage-cards {
+    min-width: 25rem;
 }
 
 .gkhub-project-statement {
