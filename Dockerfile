@@ -18,17 +18,30 @@
 
 FROM inveniosoftware/centos8-python:3.8
 
+#
+# Base Dependencies
+#
 COPY Pipfile Pipfile.lock ./
 RUN pipenv install --deploy --system --pre
 
-RUN pip install git+https://github.com/geo-knowledge-hub/geo-knowledge-hub.git
+#
+# GEO Knowledge Hub extensions
+#
+RUN git clone https://github.com/geo-knowledge-hub/geo-knowledge-hub.git \
+    && pip install -e .
 
+#
+# Auxiliary files
+#
 COPY ./docker/uwsgi/ ${INVENIO_INSTANCE_PATH}
 COPY ./invenio.cfg ${INVENIO_INSTANCE_PATH}
 COPY ./templates/ ${INVENIO_INSTANCE_PATH}/templates/
 COPY ./app_data/ ${INVENIO_INSTANCE_PATH}/app_data/
 COPY ./ .
 
+#
+# Invenio Webpack building
+#
 RUN cp -r ./static/. ${INVENIO_INSTANCE_PATH}/static/ && \
     cp -r ./assets/. ${INVENIO_INSTANCE_PATH}/assets/ && \
     invenio collect --verbose  && \
