@@ -28,6 +28,7 @@ RUN pipenv install --deploy --system --pre
 # GEO Knowledge Hub extensions
 #
 RUN git clone https://github.com/geo-knowledge-hub/geo-knowledge-hub.git \
+    && cd geo-knowledge-hub \
     && pip install -e .
 
 #
