@@ -22,14 +22,10 @@ FROM inveniosoftware/centos8-python:3.8
 # Base Dependencies
 #
 COPY Pipfile Pipfile.lock ./
-RUN pipenv install --deploy --system --pre
-
-#
-# GEO Knowledge Hub extensions
-#
-RUN git clone https://github.com/geo-knowledge-hub/geo-knowledge-hub.git \
-    && cd geo-knowledge-hub \
-    && pip install -e .
+RUN pipenv install --deploy --system --pre \
+    # GEO Knowledge Hub extensions (ToDo: Add extension as pipfile dependencies)
+    && for g in geo-knowledge-hub geo-vocabularies; do git clone https://github.com/geo-knowledge-hub/${g}.git \
+    && pip install -e $g; done
 
 #
 # Auxiliary files
@@ -41,13 +37,23 @@ COPY ./app_data/ ${INVENIO_INSTANCE_PATH}/app_data/
 COPY ./ .
 
 #
-# Invenio Webpack building
+# Configuring Invenio
 #
-RUN cp -r ./static/. ${INVENIO_INSTANCE_PATH}/static/ && \
-    cp -r ./assets/. ${INVENIO_INSTANCE_PATH}/assets/ && \
-    invenio collect --verbose  && \
-    invenio webpack create && \
-    invenio webpack install --unsafe && \
-    invenio webpack build
+RUN cp -r ./static/. ${INVENIO_INSTANCE_PATH}/static/ \
+    && cp -r ./assets/. ${INVENIO_INSTANCE_PATH}/assets/ \
+    && invenio collect --verbose \
+    && invenio webpack create \
+    && invenio webpack install --unsafe \
+    && invenio webpack build \
+    # Temporary: Installing the GEO Custom `react-invenio-deposit`.
+    && git clone https://github.com/geo-knowledge-hub/react-invenio-deposit \
+    && cd react-invenio-deposit \
+    && npm install \
+    && npm run-script build \
+    # Moving to the invenio webpack `node_module` directory.
+    && rm -rf /opt/invenio/var/instance/assets/node_modules/react-invenio-deposit/dist/* \
+    && cp -R dist/* /opt/invenio/var/instance/assets/node_modules/react-invenio-deposit/dist/ \
+    && invenio webpack build
+
 
 ENTRYPOINT [ "bash", "-c" ]
