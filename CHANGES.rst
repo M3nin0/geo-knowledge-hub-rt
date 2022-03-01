@@ -6,12 +6,38 @@
     under the terms of the MIT License; see LICENSE file for more details.
 
 
-GEO Knowldege Hub - Changes
-===========================
+Runtime for GEO Knowldege Hub - Changes
+=======================================
 
 
-Version 0.3.0
--------------
+Version 0.8.0 (2021-11-24)
+--------------------------
+
+- Renamed repository from ``geo-knowledge-hub`` to ``geo-knowledge-hub-rt``;
+
+- Moved vocabularies for a separate extension named `geo-vocabularies <https://github.com/geo-knowledge-hub/geo-vocabularies>`_;
+
+- Updated Pipfile.lock versions;
+
+- Compatible with:
+ - `GEO Knowledge Hub Package Loader 0.8.0 <https://github.com/geo-knowledge-hub/geo-package-loader/tree/b-0.8>`_;
+ - `GEO Knowledge Hub Extenson 0.8.0 <https://github.com/geo-knowledge-hub/geo-knowledge-hub/tree/b-0.8>`_;
+ - `GEO Knowledge Hub Vocabularies 0.8.0 <https://github.com/geo-knowledge-hub/geo-vocabularies/tree/b-0.8>`_;
+
+Version 0.6.0 (2021-10-07)
+---------------------------
+
+- Based on `InvenioRDM 6.0 <https://inveniordm.docs.cern.ch/releases/versions/version-v6.0.0/>`_.
+
+- Add user actions;
+
+- Frontpage customization;
+
+- Compatible with `GEO Knowledge Hub Package Loader 0.6.0 <https://github.com/geo-knowledge-hub/gkh-package-loader/tree/b-0.6>`_ and `GEO Knowledge Hub Extension 0.6.0 <https://github.com/geo-knowledge-hub/geo-knowledge-hub-ext/tree/b-0.6>`_.
+
+
+Version 0.3.0 (2021-06-21)
+--------------------------
 
 
 - Based on `InvenioRDM 4.0 <https://inveniordm.docs.cern.ch/releases/versions/version-v4.0.0/>`_.
@@ -20,7 +46,7 @@ Version 0.3.0
 
 - Enhanced Jinja templates.
 
-- Added GEO Knowldege Hub Extension.
+- Added GEO Knowledge Hub Extension.
 
 
 Version 0.1.0 (2020-09-01)

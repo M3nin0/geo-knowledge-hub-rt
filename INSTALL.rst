@@ -21,7 +21,7 @@ Pre-Requirements
 ++++++++++++++++
 
 
-- `Python <https://www.python.org/>`_ 3.7+
+- `Python <https://www.python.org/>`_ 3.8+
 
 - `nodejs <https://nodejs.org/>`_ 14.0.0+
 
@@ -43,7 +43,7 @@ Pre-Requirements
 
     For the development environment, you should have the Python development headers. On Linux Ubuntu, it can be installed with ``apt-get``::
 
-        sudo apt install python3.7-dev
+        sudo apt install python3.8-dev
 
 
 .. note::
@@ -51,18 +51,38 @@ Pre-Requirements
     The Anaconda Python version is not currently supported by InvenioRDM. Please, for more details, refer to the section `Pre-Requirements <https://inveniordm.docs.cern.ch/install/#pre-requirements>`_ in InvenioRDM documentation.
 
 
-Clone the software repository
-+++++++++++++++++++++++++++++
+Clone the software repository and all GEO Knowledge Hub extensions
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Use ``git`` to clone the software repository::
+Use ``git`` to clone the **runtime** software repository::
+
+    git clone https://github.com/geo-knowledge-hub/geo-knowledge-hub-rt.git
+
+
+Clone also all the extension repositories::
+
+    git clone https://github.com/geo-knowledge-hub/geo-vocabularies.git
 
     git clone https://github.com/geo-knowledge-hub/geo-knowledge-hub.git
 
+    git clone https://github.com/geo-knowledge-hub/react-invenio-deposit.git
 
-Go to the source code folder::
 
-    cd geo-knowledge-hub
+.. tip::
+
+    Let's assume you have cloned the above repositories according to the following structure::
+
+        /path/to/repositories
+        ├── geo-knowledge-hub
+        ├── geo-knowledge-hub-rt
+        ├── geo-vocabularies
+        └── react-invenio-deposit
+
+
+Go to the **runtime** folder::
+
+    cd geo-knowledge-hub-rt
 
 
 Install the Invenio-CLI
@@ -88,33 +108,36 @@ Check the installed version::
 
     If you want to create a new Python Virtual Environment, please, follow this instruction:
 
-    *1.* Create a new virtual environment linked to Python 3.7::
+    *1.* Create a new virtual environment linked to Python 3.8::
 
-        python3.7 -m venv venv
+        python3.8 -m venv /path/to/repositories/venv
+
+
+    .. tip::
+
+        Please, replace ``/path/to/repositories`` with the correct path in your machine.
 
 
     **2.** Activate the new environment::
 
-        source venv/bin/activate
+        source /path/to/repositories/venv/bin/activate
 
 
     **3.** Update pip and setuptools::
 
-        pip3 install --upgrade pip
-
-        pip3 install --upgrade setuptools
+        pip3 install --upgrade pip setuptools wheel
 
 
 .. note::
 
-    We are using ``invenio-cli`` version 0.18.0.
+    We are using ``invenio-cli`` version 1.0.0.
 
 
 Create Instance Configuration File
 ++++++++++++++++++++++++++++++++++
 
 
-You will need to create a file named ``.invenio.private`` in the root of the source code repository with the following content::
+You will need to create a file named ``.invenio.private`` in the root of the **runtime** repository with the following content::
 
     echo "[cli]" > .invenio.private
     echo "project_dir = $(pwd)" >> .invenio.private
@@ -122,28 +145,54 @@ You will need to create a file named ``.invenio.private`` in the root of the sou
     echo "services_setup = True" >> .invenio.private
 
 
+.. note::
+
+    If you are not in a virtual environment, please, replace the ``${VIRTUAL_ENV}`` variable by the correct path in your machine, for example: ``/path/to/repositories/venv/var/instance``.
+
+
 Local Installation
 ++++++++++++++++++
+
+.. note::
+
+    All commands suppose that you are currently in the **runtime** folder (``/path/to/repositories/geo-knowledge-hub-rt``).
 
 
 We will run GEO Knowledge Hub locally and the database and other services in Docker containers.
 
 
-From the GEO Knowledge Hub folder, install all the dependencies with the help of ``invenio-cli``::
+From the GEO Knowledge Hub **runtime** folder, install all the dependencies with the help of ``invenio-cli``::
 
     invenio-cli install --pre --development
 
 
 After installing all the dependency libraries, setup the PostgreSQL, Elasticsearch, Redis and RabbitMQ containers::
 
-    invenio-cli services setup --force
+    invenio-cli services setup --force --no-demo-data
+
+
+Install the GEO Knowledge Hub **vocabularies**::
+
+    pip install /path/to/repositories/geo-vocabularies
+
+
+Install the GEO Knowledge Hub InvenioRDM extension::
+
+    invenio-cli packages install /path/to/repositories/geo-knowledge-hub
+
+
+.. warning::
+
+    You will need to install a special version of ``react-invenio-deposit`` from the GEO Knowledge Hub organization::
+
+        invenio-cli assets install /path/to/repositories/react-invenio-deposit
 
 
 Run GEO Knowledge Hub
 +++++++++++++++++++++
 
 
-After installing locally and preparing the services, start GEO Knowledge Hub::
+After installing locally and preparing the services, start the GEO Knowledge Hub::
 
     invenio-cli run
 
