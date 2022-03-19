@@ -20,3 +20,8 @@
 // ------------
 @footerLightColor: #397096;
 @footerDarkColor: @brandColor;
+
+// ------------
+// Links style
+// ------------
+@linkHoverUnderline: none;
