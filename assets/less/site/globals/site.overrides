@@ -71,6 +71,7 @@ nav#invenio-nav {
   .section-title();
   margin-bottom: 30px;
   font-weight: 440;
+  padding-top: 3px;
 }
 
 .gkhub-frontpage-cards {
