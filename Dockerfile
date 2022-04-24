@@ -47,9 +47,9 @@ RUN cp -r ./static/. ${INVENIO_INSTANCE_PATH}/static/ \
 RUN mkdir ${INVENIO_INSTANCE_PATH}/assets/build-components \
     && cd ${INVENIO_INSTANCE_PATH}/assets/build-components \
     && for i in \
-        geo-components-react,master \
+        geo-components-react,v0.2.0 \
         react-invenio-deposit,b-1.0 \
-        geo-deposit-react,master; \
+        geo-deposit-react,v0.2.0; \
     do IFS=","; set -- $i; \
         git clone --branch $2 https://github.com/geo-knowledge-hub/$1 \
         && cd ${PWD}/$1 \
