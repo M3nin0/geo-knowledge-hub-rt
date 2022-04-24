@@ -22,10 +22,7 @@ FROM inveniosoftware/centos8-python:3.8
 # Base Dependencies
 #
 COPY Pipfile Pipfile.lock ./
-RUN pipenv install --deploy --system --pre \
-    # GEO Knowledge Hub extensions (ToDo: Add extension as pipfile dependencies)
-    && for g in geo-knowledge-hub geo-vocabularies; do git clone https://github.com/geo-knowledge-hub/${g}.git \
-    && pip install -e $g; done
+RUN pipenv install --deploy --system --pre 
 
 #
 # Auxiliary files
@@ -39,21 +36,35 @@ COPY ./ .
 #
 # Configuring Invenio
 #
+
+# Creating the base webpack
 RUN cp -r ./static/. ${INVENIO_INSTANCE_PATH}/static/ \
     && cp -r ./assets/. ${INVENIO_INSTANCE_PATH}/assets/ \
     && invenio collect --verbose \
     && invenio webpack create \
-    && invenio webpack install --unsafe \
-    && invenio webpack build \
-    # Temporary: Installing the GEO Custom `react-invenio-deposit`.
-    && git clone https://github.com/geo-knowledge-hub/react-invenio-deposit \
-    && cd react-invenio-deposit \
-    && npm install \
-    && npm run-script build \
-    # Moving to the invenio webpack `node_module` directory.
-    && rm -rf /opt/invenio/var/instance/assets/node_modules/react-invenio-deposit/dist/* \
-    && cp -R dist/* /opt/invenio/var/instance/assets/node_modules/react-invenio-deposit/dist/ \
-    && invenio webpack build
+    && invenio webpack install --unsafe
 
+RUN mkdir ${INVENIO_INSTANCE_PATH}/assets/build-components \
+    && cd ${INVENIO_INSTANCE_PATH}/assets/build-components \
+    && for i in \
+        geo-components-react,v0.2.0 \
+        react-invenio-deposit,b-1.0 \
+        geo-deposit-react,v0.2.0; \
+    do IFS=","; set -- $i; \
+        git clone --branch $2 https://github.com/geo-knowledge-hub/$1 \
+        && cd ${PWD}/$1 \
+        && npm install \
+        && npm run-script build \
+        && npm run-script link-dist \
+        && cd ${INVENIO_INSTANCE_PATH}/assets/ \
+        && npm link ${INVENIO_INSTANCE_PATH}/assets/build-components/$1 \
+        && cd ${INVENIO_INSTANCE_PATH}/assets/build-components; \
+    done
+
+# Building
+RUN invenio collect --verbose \
+    && invenio webpack create \
+    && invenio webpack build \
+    && pip install ipython_genutils
 
 ENTRYPOINT [ "bash", "-c" ]
