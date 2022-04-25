@@ -10,6 +10,20 @@ Runtime for GEO Knowldege Hub - Changes
 =======================================
 
 
+Version 0.8.0 (2022-04-25)
+--------------------------
+
+- Based on `InvenioRDM 8.0 <https://inveniordm.docs.cern.ch/releases/versions/version-v8.0.0/>`_;
+
+- Repository organization
+
+- AWS CodePipeline Disabled;
+
+- Dockerfile build reviewed to support the custom react libraries for the GEO Knowledge Hub;
+
+- Compatible with:
+ - `GEO Knowledge Hub Extenson 0.8.0 <https://github.com/geo-knowledge-hub/geo-knowledge-hub/tree/b-0.8>`_;
+
 Version 0.8.0 (2021-11-24)
 --------------------------
 
