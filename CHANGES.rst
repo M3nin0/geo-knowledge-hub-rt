@@ -9,6 +9,11 @@
 Runtime for GEO Knowldege Hub - Changes
 =======================================
 
+Version 1.0.1 (2022-04-29)
+--------------------------
+
+- Updated geo-knowledge-hub customization package to version `v1.0.1`;
+- Fixed Engagement Priorities labels on the Record landing page.
 
 Version 1.0.0 (2022-04-25)
 --------------------------
