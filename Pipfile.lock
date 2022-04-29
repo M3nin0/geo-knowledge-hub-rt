@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b4959becdb9996420f3f9af983726fc42494e4a0c2f6621a9a8940276649aaf8"
+            "sha256": "b236b3683815e1b1aac736db506e1ef5cd209f7e14e26ae025467014784b57d7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -708,7 +708,7 @@
         "geo-knowledge-hub": {
             "editable": false,
             "git": "https://github.com/geo-knowledge-hub/geo-knowledge-hub.git",
-            "ref": "d308c99b4fc9418ebdf6bd77fff91fad8e1591c5"
+            "ref": "63d7d5bf41d7b3bebb429552b2e5fc2fbe51cff9"
         },
         "geo-rdm-records": {
             "git": "https://github.com/geo-knowledge-hub/geo-rdm-records",
