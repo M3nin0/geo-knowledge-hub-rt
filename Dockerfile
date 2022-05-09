@@ -34,37 +34,14 @@ COPY ./app_data/ ${INVENIO_INSTANCE_PATH}/app_data/
 COPY ./ .
 
 #
-# Configuring Invenio
+# Building the InvenioRDM based application
 #
-
-# Creating the base webpack
-RUN cp -r ./static/. ${INVENIO_INSTANCE_PATH}/static/ \
-    && cp -r ./assets/. ${INVENIO_INSTANCE_PATH}/assets/ \
-    && invenio collect --verbose \
-    && invenio webpack create \
-    && invenio webpack install --unsafe
-
-RUN mkdir ${INVENIO_INSTANCE_PATH}/assets/build-components \
-    && cd ${INVENIO_INSTANCE_PATH}/assets/build-components \
-    && for i in \
-        geo-components-react,v0.2.0 \
-        react-invenio-deposit,b-1.0 \
-        geo-deposit-react,v0.2.0; \
-    do IFS=","; set -- $i; \
-        git clone --branch $2 https://github.com/geo-knowledge-hub/$1 \
-        && cd ${PWD}/$1 \
-        && npm install \
-        && npm run-script build \
-        && npm run-script link-dist \
-        && cd ${INVENIO_INSTANCE_PATH}/assets/ \
-        && npm link ${INVENIO_INSTANCE_PATH}/assets/build-components/$1 \
-        && cd ${INVENIO_INSTANCE_PATH}/assets/build-components; \
-    done
-
-# Building
-RUN invenio collect --verbose \
-    && invenio webpack create \
-    && invenio webpack build \
-    && pip install ipython_genutils
+RUN cp -r ./static/. ${INVENIO_INSTANCE_PATH}/static/ && \
+    cp -r ./assets/. ${INVENIO_INSTANCE_PATH}/assets/ && \
+    invenio collect --verbose  && \
+    invenio webpack create && \
+    invenio webpack install --unsafe && \
+    invenio webpack build && \
+    pip install ipython_genutils
 
 ENTRYPOINT [ "bash", "-c" ]
