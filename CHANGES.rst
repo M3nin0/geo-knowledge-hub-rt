@@ -9,6 +9,18 @@
 Runtime for GEO Knowldege Hub - Changes
 =======================================
 
+Version 1.1.1 (Alpha) (2022-05-10)
+--------------------------
+
+- Updated `geo-knowledge-hub <https://github.com/geo-knowledge-hub/geo-knowledge-hub>`_ customization package to version `v1.1.1-alpha <https://github.com/geo-knowledge-hub/geo-knowledge-hub/releases/tag/v1.1.1-alpha>`_;
+- Updated build workflow (Closes `#79 <https://github.com/geo-knowledge-hub/geo-knowledge-hub-rt/issues/79>`_).
+
+Version 1.1.0 (Alpha) (2022-04-29)
+--------------------------
+
+- Updated `geo-knowledge-hub <https://github.com/geo-knowledge-hub/geo-knowledge-hub>`_ customization package to version `v1.1.0-alpha <https://github.com/geo-knowledge-hub/geo-knowledge-hub/releases/tag/v1.1.0-alpha>`_;
+- Added initial support for geospatial metadata previewer.
+
 Version 1.0.1 (2022-04-29)
 --------------------------
 
