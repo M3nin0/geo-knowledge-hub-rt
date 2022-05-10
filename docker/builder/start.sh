@@ -12,6 +12,10 @@
 #
 BASE_DIRECTORY=$PWD
 
+VERDACCIO_USERNAME=foo
+VERDACCIO_PASSWORD=test
+VERDACCIO_EMAIL=test@test.org
+
 VERDACCIO_LOCAL_REGISTRY=http://127.0.0.1:4873
 VERDACCIO_DOCKER_REGISTRY=http://127.0.0.1:4873
 
@@ -33,7 +37,21 @@ extract_from_quotes() {
 docker-compose -f docker/builder/docker-compose.yml up -d
 
 #
-# 2. Extracting `geo-knowledge-hub` package version
+# 2. Authenticating on registry
+#
+
+# installing utilitary tool to auth
+npm install -g npm-cli-login
+
+# authenticating
+npm-cli-login \
+    -u $VERDACCIO_USERNAME \
+    -p $VERDACCIO_PASSWORD \
+    -e $VERDACCIO_EMAIL \
+    -r $VERDACCIO_LOCAL_REGISTRY
+
+#
+# 3. Extracting `geo-knowledge-hub` package version
 #
 
 # getting the package definition on `Pipefile`
@@ -44,7 +62,7 @@ PIPFILE_DEPENDENCY_DEFINITION=`cat Pipfile | grep geo-knowledge-hub`
 PIPFILE_DEPENDENCY_VERSION=`echo ${PIPFILE_DEPENDENCY_DEFINITION} | cut -d',' -f 3 | cut -d'"' -f 2`
 
 #
-# 3. Publishing JavaScript dependencies from `geo-knowledge-hub` to verdaccio
+# 4. Publishing JavaScript dependencies from `geo-knowledge-hub` to verdaccio
 #
 
 # cloning and installing the package
@@ -78,11 +96,19 @@ done
 
 
 #
-# 4. Preparing package to build
+# 5. Preparing package to build
 #
 cd $BASE_DIRECTORY
 
 # adding the registry reference in the Dockerfile
+sed -i "/^COPY .\/* /a \
+RUN npm install -g npm-cli-login && npm-cli-login \\\
+    -u $VERDACCIO_USERNAME \\\
+    -p $VERDACCIO_PASSWORD \\\
+    -e $VERDACCIO_EMAIL \\\
+    -r $VERDACCIO_LOCAL_REGISTRY" \
+    Dockerfile
+
 sed -i "/^COPY .\/* /a RUN echo \'@geo-knowledge-hub:registry=${VERDACCIO_DOCKER_REGISTRY}\' > ~/.npmrc" Dockerfile
 
 # excluding temporary files
